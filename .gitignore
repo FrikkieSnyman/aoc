@@ -1,3 +1,4 @@
-challenges/*
+challenges/**/*.txt
+challenges/**/*.md
 .env
 node_modules/
