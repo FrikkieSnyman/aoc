@@ -5,7 +5,7 @@ const input = (): number[] => {
   return i.split(",").map(Number);
 };
 
-const part1 = () => {
+const determineLowestCost = (costFn: (p: number) => number) => {
   const i = input();
   const [min, max] = [Math.min(...i), Math.max(...i)];
   let [bestPos, lowestTotalDist] = [undefined, undefined] as [
@@ -16,7 +16,7 @@ const part1 = () => {
   for (let pos = min; pos <= max; ++pos) {
     let totalDist = 0;
     i.forEach((c) => {
-      totalDist += Math.abs(c - pos);
+      totalDist += costFn(Math.abs(c - pos));
     });
     if (!lowestTotalDist || totalDist < lowestTotalDist) {
       lowestTotalDist = totalDist;
@@ -27,28 +27,12 @@ const part1 = () => {
   return lowestTotalDist;
 };
 
+const part1 = () => {
+  return determineLowestCost((p) => p);
+};
+
 const part2 = () => {
-  const i = input();
-  const [min, max] = [Math.min(...i), Math.max(...i)];
-  let [bestPos, lowestTotalDist] = [undefined, undefined] as [
-    number | undefined,
-    number | undefined
-  ];
-
-  for (let pos = min; pos <= max; ++pos) {
-    let totalDist = 0;
-    i.forEach((c) => {
-      // triangular number
-      const n = Math.abs(c - pos);
-      totalDist += (Math.pow(n, 2) + n) / 2;
-    });
-    if (!lowestTotalDist || totalDist < lowestTotalDist) {
-      lowestTotalDist = totalDist;
-      bestPos = pos;
-    }
-  }
-
-  return lowestTotalDist;
+  return determineLowestCost((n) => (Math.pow(n, 2) + n) / 2);
 };
 
 console.log(`Solution 1: ${part1()}`);
