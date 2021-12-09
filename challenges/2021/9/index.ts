@@ -60,21 +60,20 @@ const part2 = () => {
     y: number,
     map: Array<Array<number | undefined>>
   ): number[] => {
-    const mapCopy = [...map];
-    let ret = [mapCopy[y][x]];
-    mapCopy[y][x] = undefined;
+    let ret = [map[y][x]];
+    map[y][x] = undefined;
     if (map[y - 1] && map[y - 1][x] !== undefined) {
-      ret = ret.concat(getCluster(x, y - 1, mapCopy));
+      ret = ret.concat(getCluster(x, y - 1, map));
     }
     if (map[y + 1] && map[y + 1][x] !== undefined) {
-      ret = ret.concat(getCluster(x, y + 1, mapCopy));
+      ret = ret.concat(getCluster(x, y + 1, map));
     }
     if (map[y][x - 1] !== undefined) {
-      ret = ret.concat(getCluster(x - 1, y, mapCopy));
+      ret = ret.concat(getCluster(x - 1, y, map));
     }
 
     if (map[y][x + 1] !== undefined) {
-      ret = ret.concat(getCluster(x + 1, y, mapCopy));
+      ret = ret.concat(getCluster(x + 1, y, map));
     }
     return ret.filter((r) => r !== undefined) as number[];
   };
