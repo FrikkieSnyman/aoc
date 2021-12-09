@@ -1,5 +1,12 @@
-const { readFileSync } = require('fs');
+const { readFileSync } = require("fs");
 
-export default function readInputFile(year: string, day: string): string {
-    return readFileSync(`challenges/${year}/${day}/input.txt`, 'utf-8');
+export default function readInputFile(
+  year: string,
+  day: string,
+  sample?: boolean
+): string {
+  return readFileSync(
+    `challenges/${year}/${day}/input${sample ? "_sample" : ""}.txt`,
+    "utf-8"
+  );
 }
