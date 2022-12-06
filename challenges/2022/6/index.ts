@@ -8,13 +8,14 @@ const firstMarkerPosition = (stream: string, count: number): number => {
     for (let i = 0; i < count; i++) {
       set.add(stream[index - i]);
       if (set.size < i + 1) {
+        index += i;
         break;
       }
     }
     if (set.size === count) {
       return index;
     }
-    c = stream[index++];
+    c = stream[index];
   }
   throw new Error("no marker found");
 };
