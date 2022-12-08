@@ -89,19 +89,31 @@ const part2 = (rawInput: string) => {
 run({
   part1: {
     tests: [
-      // {
-      //   input: ``,
-      //   expected: "",
-      // },
+      {
+        input: `
+        30373
+        25512
+        65332
+        33549
+        35390
+        `,
+        expected: 21,
+      },
     ],
     solution: part1,
   },
   part2: {
     tests: [
-      // {
-      //   input: ``,
-      //   expected: "",
-      // },
+      {
+        input: `
+        30373
+        25512
+        65332
+        33549
+        35390
+        `,
+        expected: 8,
+      },
     ],
     solution: part2,
   },
