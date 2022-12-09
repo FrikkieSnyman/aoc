@@ -65,9 +65,10 @@ const getKnots = (amount: number): Victor[] => {
   return ret;
 };
 
-const part1 = (rawInput: string) => {
-  const input = parseInput(rawInput);
-  const knots = getKnots(2);
+const runInstructions = (
+  knots: Victor[],
+  input: [Direction, number][],
+): number => {
   const visits: Record<string, number> = {
     [knots[knots.length - 1].toString()]: 1,
   };
@@ -80,19 +81,16 @@ const part1 = (rawInput: string) => {
   return Object.keys(visits).length;
 };
 
+const part1 = (rawInput: string) => {
+  const input = parseInput(rawInput);
+  const knots = getKnots(2);
+  return runInstructions(knots, input);
+};
+
 const part2 = (rawInput: string) => {
   const input = parseInput(rawInput);
   const knots = getKnots(10);
-  const visits: Record<string, number> = {
-    [knots[knots.length - 1].toString()]: 1,
-  };
-  let index = 0;
-  let instruction = input[index];
-  while (instruction) {
-    processInstruction(instruction, knots, visits);
-    instruction = input[++index];
-  }
-  return Object.keys(visits).length;
+  return runInstructions(knots, input);
 };
 
 run({
