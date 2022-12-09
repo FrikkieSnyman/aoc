@@ -22,6 +22,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.6.tgz#87846192fd51b693368fad3e99123169225621d4"
   integrity sha512-vmYJF0REqDyyU0gviezF/KHq/fYaUbFhkcNbQCuPGFQj6VTbXuHZoxs/Y7mutWe73C8AC6l9fFu8mSYiBAqkGA==
 
+"@types/victor@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/victor/-/victor-1.1.0.tgz#c540809e2efb94ef60e293495cfad1614d14ec87"
+  integrity sha512-37o+SnbGRoWqb2+6GQ3NoFX8Ff5zCvm0XsXFulNvO89t2zKluqb4twVORheAnmQ+iEd0rKzAcBGC2//3XBoU1A==
+
 abab@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.6.tgz#41b80f2c871d19686216b82309231cfd3cb3d291"
@@ -60,10 +65,10 @@ anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-aocrunner@^1.9.5:
-  version "1.9.5"
-  resolved "https://registry.yarnpkg.com/aocrunner/-/aocrunner-1.9.5.tgz#1790604bb8ad1b84691f4aecaf50d3b03bd3a222"
-  integrity sha512-iRl8taTr5ZswFkkm2595T0xx9oSrAxM2TPj4J/YoRktfqP8bZh9Tsa9siuhhCigLXkgggM3rk4SGrC5iSxaAdA==
+aocrunner@^1.9.6:
+  version "1.9.6"
+  resolved "https://registry.yarnpkg.com/aocrunner/-/aocrunner-1.9.6.tgz#9748dd876a87dabd948fb569b812ce72d0bef09c"
+  integrity sha512-YD009/Ubd2CH3qXJ3RfYAfaJipVAfZYfJShWRPyLdtHeS2+ob1LiBv03JHD1LI6/SIZNhKo1OEGFci38BxCQLA==
   dependencies:
     chokidar "^3.5.3"
     common-tags "^1.8.2"
@@ -693,6 +698,11 @@ url-parse@^1.5.3:
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
+
+victor@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/victor/-/victor-1.1.0.tgz#de3cc77b15589b1b0c7b22c3dad297034ab002ba"
+  integrity sha512-s+EQHqIs5TNgLa3HHPr8oCpWFulQZzDX/PLaskVDeWXqEW12l54H5XD+cZ3gXrgvdOscqEcdAMXgEUZlJckQ4w==
 
 w3c-xmlserializer@^4.0.0:
   version "4.0.0"
