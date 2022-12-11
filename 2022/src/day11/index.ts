@@ -1,12 +1,19 @@
 import run from "aocrunner";
-import BigNumber from "bignumber.js";
+import { BigInteger } from "jsbn";
 
 type Monkey = {
-  items: BigNumber[];
-  inspection: (old: BigNumber, monkey: Monkey) => BigNumber;
-  test: (worry: BigNumber) => boolean;
+  items: BigInteger[];
+  inspection: (old: BigInteger, monkey: Monkey) => BigInteger;
+  test: (worry: BigInteger) => boolean;
   action: [number, number];
   totalInspections: number;
+  m: number;
+};
+
+const lcm = (...arr: number[]) => {
+  const gcd = (x: number, y: number): number => (!y ? x : gcd(y, x % y));
+  const _lcm = (x: number, y: number) => (x * y) / gcd(x, y);
+  return [...arr].reduce((a, b) => _lcm(a, b));
 };
 
 const parseInput = (rawInput: string): Monkey[] => {
@@ -15,31 +22,25 @@ const parseInput = (rawInput: string): Monkey[] => {
     const items = attributes[1]
       .split(": ")[1]
       .split(", ")
-      .map((i) => new BigNumber(i));
-    const inspection = (old: BigNumber, monkey: Monkey): BigNumber => {
+      .map((i) => new BigInteger(i));
+    const inspection = (old: BigInteger, monkey: Monkey): BigInteger => {
       monkey.totalInspections++;
       const f = attributes[2].split("new = ")[1].split(" ");
       const op = f[1];
-      const left: BigNumber = f[0] === "old" ? old : new BigNumber(f[0]);
-      const right: BigNumber = f[2] === "old" ? old : new BigNumber(f[2]);
-      // const start = Date.now();
-      let r: BigNumber;
+      const left: BigInteger = f[0] === "old" ? old : new BigInteger(f[0]);
+      const right: BigInteger = f[2] === "old" ? old : new BigInteger(f[2]);
       switch (op) {
         case "+":
-          r = left.plus(right);
-          break;
+          return left.add(right);
         case "*":
-          r = left.multipliedBy(right);
-          break;
+          return left.multiply(right);
         default:
           throw new Error("unsupported op");
       }
-      // console.log(Date.now() - start);
-      return r;
     };
-    const mod = parseInt(attributes[3].split("divisible by ")[1]);
-    const test = (worry: BigNumber) => {
-      const r = worry.mod(mod).comparedTo(0) === 0;
+    const mod = new BigInteger(attributes[3].split("divisible by ")[1]);
+    const test = (worry: BigInteger) => {
+      const r = worry.mod(mod).compareTo(new BigInteger("0")) === 0;
       return r;
     };
 
@@ -53,50 +54,42 @@ const parseInput = (rawInput: string): Monkey[] => {
       test,
       action,
       totalInspections: 0,
+      m: mod.intValue(),
     };
   });
 };
 
-const playTurn = (
-  monkey: Monkey,
-  monkeys: Monkey[],
-  decreasingWorry: boolean,
-) => {
+const playTurn = (monkey: Monkey, monkeys: Monkey[], lcm?: BigInteger) => {
   let item = monkey.items.shift();
   while (item) {
-    // const start = Date.now();
-    const updatedWorry = decreasingWorry
-      ? monkey
-          .inspection(item, monkey)
-          .dividedBy(3)
-          .decimalPlaces(0, BigNumber.ROUND_FLOOR)
-      : monkey.inspection(item, monkey);
-    // const t1 = Date.now();
+    let updatedWorry;
+    if (lcm) {
+      updatedWorry = monkey.inspection(item, monkey).mod(lcm);
+    } else {
+      updatedWorry = monkey
+        .inspection(item, monkey)
+        .divide(new BigInteger("3"));
+    }
     monkeys[monkey.action[monkey.test(updatedWorry) ? 0 : 1]].items.push(
       updatedWorry,
     );
-    // const t2 = Date.now();
     item = monkey.items.shift();
-    // console.log(t1 - start, t2 - t1, Date.now() - t2);
   }
 };
 
-const playRound = (monkeys: Monkey[], decreasingWorry: boolean) => {
+const playRound = (monkeys: Monkey[], lcm?: BigInteger) => {
   for (const monkey of monkeys) {
-    playTurn(monkey, monkeys, decreasingWorry);
+    playTurn(monkey, monkeys, lcm);
   }
 };
 
 const playRounds = (
   totalRounds: number,
   monkeys: Monkey[],
-  decreasingWorry = true,
+  lcm?: BigInteger,
 ) => {
   for (let i = 0; i < totalRounds; ++i) {
-    // if (!decreasingWorry) {
-    // console.log("playing round", i);
-    // }
-    playRound(monkeys, decreasingWorry);
+    playRound(monkeys, lcm);
   }
 };
 
@@ -111,11 +104,11 @@ const part1 = (rawInput: string) => {
 
 const part2 = (rawInput: string) => {
   const monkeys = parseInput(rawInput);
-  // playRounds(10000, monkeys, false);
+  const leastCommonMult = lcm(...monkeys.map((m) => m.m));
+  playRounds(10000, monkeys, new BigInteger(leastCommonMult + ""));
   const sorted = monkeys.sort(
     (a, b) => b.totalInspections - a.totalInspections,
   );
-  console.log(sorted.map((m) => m.totalInspections));
   return sorted[0].totalInspections * sorted[1].totalInspections;
 };
 
@@ -195,5 +188,5 @@ run({
     solution: part2,
   },
   trimTestInputs: true,
-  onlyTests: true,
+  onlyTests: false,
 });

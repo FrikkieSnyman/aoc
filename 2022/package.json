@@ -15,6 +15,7 @@
   "author": "Frikkie Snyman",
   "license": "ISC",
   "devDependencies": {
+    "@types/jsbn": "^1.2.30",
     "@types/node": "^16.11.6",
     "@types/victor": "^1.1.0",
     "aocrunner": "^1.9.6",
